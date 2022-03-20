@@ -1,5 +1,6 @@
 const menuRoutes = require('./Menu/routes')
 const userRoutes = require('./User/routes')
+const restaurantRoutes = require('./Restaurant/routes')
 const express = require('express');
 const router = express.Router();
 
@@ -11,7 +12,12 @@ const defaultRoutes = [
   {
     path: '/user',
     route: userRoutes,
-  }
+  },
+  {
+    path: '/restaurant',
+    route: restaurantRoutes,
+  },
+  
 ];
 
 defaultRoutes.forEach((route) => {
