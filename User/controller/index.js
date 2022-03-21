@@ -68,7 +68,8 @@ exports.signin = (req, res) => {
       }
       //signing token with user id
       var token = jwt.sign({
-        id: user.id
+        id: user.id,
+        role:user.role
       }, process.env.API_SECRET, {
         expiresIn: 86400
       });
@@ -80,6 +81,7 @@ exports.signin = (req, res) => {
             id: user._id,
             email: user.email,
             fullName: user.fullName,
+            role: user.role
           },
           message: "Login successfull",
           accessToken: token,
