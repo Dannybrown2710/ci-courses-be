@@ -131,8 +131,8 @@ exports.signin = async(req, res) => {
 
 exports.logout = async(req, res) => {
   req.session.destroy(function(data) {
-    req.session.user = {};
-    req.session.loggedIn = false;
+    req.session &&( req.session.user = {})
+    req.session && (req.session.loggedIn = false)
     res.status(304).redirect('/')
   })
 }
