@@ -72,8 +72,8 @@ exports.signin = async(req, res) => {
       return;
     }
     if (!user) {
-      return res.status(404).send({
-        message: "User Not found.",
+      return res.status(401).send({
+        message: "Please login first to continue",
       });
     }
 
@@ -128,3 +128,9 @@ exports.signin = async(req, res) => {
     });
   });
 };
+
+exports.logout = async(req, res) => {
+  req.session.destroy(function(data) {
+    res.status(304).redirect('/')
+  })
+}
