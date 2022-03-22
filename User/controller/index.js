@@ -103,7 +103,7 @@ exports.signin = async(req, res) => {
       role: user.role,
     }}
     req.session.loggedIn = true
-    req.session.user = user;
+    req.session.user = resp.user;
     if(user.role === 'Admin'){
       resp.restaurantData = await Restaurant.find({owner: user._id});
       req.session.restaurantData = resp.restaurantData
