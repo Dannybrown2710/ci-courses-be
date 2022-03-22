@@ -15,7 +15,7 @@ app.use(session({
   saveUninitialized: true,
   cookie: { httpOnly: true, secure: false},
   store: MongoStore.create({
-    mongoUrl: 'mongodb://localhost:27017/zomatotomato', //YOUR MONGODB URL
+    mongoUrl: 'mongodb://localhost:27017/zomatotomato', 
 })
 }))
 app.use("/", routes);

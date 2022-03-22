@@ -36,14 +36,77 @@ const editRestaurant = async (req, res) => {
         restaurant[key] = req.body[key];
       }
       restaurant.save();
-      res.status(200).send({message:"Restaurt updated successfully"});
+      res.status(200).send({message:"Restaurant updated successfully"});
     }
   } else {
     res.status(403).send({message: 'Unauthorised'})
   }
 }
 
+
+const addMenuItemToRestaurant = async (req, res) => {
+  console.log(req.session);
+  if(req.session.user && req.session.user.role === 'Admin'){
+    const user = req.session.user;
+    const restaurant = await Restaurant.findOne({owner: user._id});
+    console.log(restaurant);
+    if(!restaurant){
+      res.status(503).send({message:"Restaurant not found"});
+      return;
+    }else{
+      restaurant.menu.push(req.body)
+      restaurant.save();
+      res.status(200).send({message:"Menu Item updated successfully"});
+    }
+  } else {
+    res.status(403).send({message: 'Unauthorised'})
+  }
+}
+
+
+const editMenuItemToRestaurant = async (req, res) => {
+  console.log(req.session);
+  if(req.session.user && req.session.user.role === 'Admin'){
+    const user = req.session.user;
+    const restaurant = await Restaurant.updateOne({owner: user._id,"menu._id":req.body._id},{$set:{"menu.$":req.body}});
+    console.log(restaurant);
+    if(!restaurant){
+      res.status(503).send({message:"Restaurant not found"});
+      return;
+    }else{
+      res.status(200).send({message:"Restaurant updated successfully"});
+    }
+  } else {
+    res.status(403).send({message: 'Unauthorised'})
+  }
+}
+
+
+const deleteMenuItemToRestaurant = async (req, res) => {
+  console.log(req.session);
+  if(req.session.user && req.session.user.role === 'Admin'){
+    const user = req.session.user;
+    const restaurant = await Restaurant.updateOne({owner: user._id},{$pull:{"menu":{_id:req.body._id}}});
+    console.log(restaurant);
+    if(!restaurant){
+      res.status(503).send({message:"Restaurant not found"});
+      return;
+    }else{
+      res.status(200).send({message:"Restaurant updated successfully"});
+    }
+  } else {
+    res.status(403).send({message: 'Unauthorised'})
+  }
+}
+
+
+
+
+
 module.exports = {
   getRestaurant,
-  editRestaurant
+  editRestaurant,
+  addMenuItemToRestaurant,
+  editMenuItemToRestaurant,
+  deleteMenuItemToRestaurant
 };
