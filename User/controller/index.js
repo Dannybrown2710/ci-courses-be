@@ -58,6 +58,7 @@ exports.signin = async(req, res) => {
     const resp = {user:req.session.user}
     const user = req.session.user;
     resp.restaurantData = await Restaurant.findOne({owner: user?._id});
+    console.log(resp.restaurantData)
       req.session.restaurantData = resp.restaurantData
     res.status(200).send(resp);
     return;
@@ -105,7 +106,7 @@ exports.signin = async(req, res) => {
     req.session.loggedIn = true
     req.session.user = resp.user;
     if(user.role === 'Admin'){
-      resp.restaurantData = await Restaurant.find({owner: user._id});
+      resp.restaurantData = await Restaurant.findOne({owner: user._id});
       req.session.restaurantData = resp.restaurantData
     }
     
