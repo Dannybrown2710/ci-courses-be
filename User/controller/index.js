@@ -57,7 +57,7 @@ exports.signin = async(req, res) => {
   if(req.session.loggedIn){
     const resp = {user:req.session.user}
     const user = req.session.user;
-    resp.restaurantData = await Restaurant.findOne({owner: user?._id});
+    resp.restaurantData = await Restaurant.findOne({owner: user.id});
     console.log(resp.restaurantData)
       req.session.restaurantData = resp.restaurantData
     res.status(200).send(resp);
