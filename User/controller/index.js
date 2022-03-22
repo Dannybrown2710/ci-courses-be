@@ -98,7 +98,7 @@ exports.signin = async(req, res) => {
       });
     }
     const resp = {user: {
-      id: user._id,
+      id: user.id,
       email: user.email,
       fullName: user.fullName,
       role: user.role,
@@ -106,7 +106,7 @@ exports.signin = async(req, res) => {
     req.session.loggedIn = true
     req.session.user = resp.user;
     if(user.role === 'Admin'){
-      resp.restaurantData = await Restaurant.findOne({owner: user._id});
+      resp.restaurantData = await Restaurant.findOne({owner: user.id});
       req.session.restaurantData = resp.restaurantData
     }
     

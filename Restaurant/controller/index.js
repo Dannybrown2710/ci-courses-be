@@ -26,7 +26,7 @@ const editRestaurant = async (req, res) => {
   console.log(req.session);
   if(req.session.user && req.session.user.role === 'Admin'){
     const user = req.session.user;
-    const restaurant = await Restaurant.findOne({owner: user._id});
+    const restaurant = await Restaurant.findOne({owner: user.id});
     console.log(restaurant);
     if(!restaurant){
       res.status(503).send({message:"Restaurant not found"});
@@ -48,7 +48,7 @@ const addMenuItemToRestaurant = async (req, res) => {
   console.log(req.session);
   if(req.session.user && req.session.user.role === 'Admin'){
     const user = req.session.user;
-    const restaurant = await Restaurant.findOne({owner: user._id});
+    const restaurant = await Restaurant.findOne({owner: user.id});
     console.log(restaurant);
     if(!restaurant){
       res.status(503).send({message:"Restaurant not found"});
@@ -68,7 +68,7 @@ const editMenuItemToRestaurant = async (req, res) => {
   console.log(req.session);
   if(req.session.user && req.session.user.role === 'Admin'){
     const user = req.session.user;
-    const restaurant = await Restaurant.updateOne({owner: user._id,"menu._id":req.body._id},{$set:{"menu.$":req.body}});
+    const restaurant = await Restaurant.updateOne({owner: user.id,"menu._id":req.body._id},{$set:{"menu.$":req.body}});
     console.log(restaurant);
     if(!restaurant){
       res.status(503).send({message:"Restaurant not found"});
@@ -86,7 +86,7 @@ const deleteMenuItemToRestaurant = async (req, res) => {
   console.log(req.session);
   if(req.session.user && req.session.user.role === 'Admin'){
     const user = req.session.user;
-    const restaurant = await Restaurant.updateOne({owner: user._id},{$pull:{"menu":{_id:req.body._id}}});
+    const restaurant = await Restaurant.updateOne({owner: user.id},{$pull:{"menu":{_id:req.body.id}}});
     console.log(restaurant);
     if(!restaurant){
       res.status(503).send({message:"Restaurant not found"});
