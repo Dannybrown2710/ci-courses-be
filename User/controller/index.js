@@ -53,10 +53,10 @@ exports.signup = (req, res) => {
   });
 };
 
-exports.signin = (req, res) => {
+exports.signin = async(req, res) => {
   User.findOne({
     email: req.body.email,
-  }).exec((err, user) => {
+  }).exec(async(err, user) => {
     if (err) {
       res.status(500).send({
         message: err,
@@ -88,6 +88,15 @@ exports.signin = (req, res) => {
         message: "Invalid Password!",
       });
     }
+    const resp = {user: {
+      id: user._id,
+      email: user.email,
+      fullName: user.fullName,
+      role: user.role,
+    }}
+    if(user.role === 'Admin'){
+      resp.restaurantData = await Restaurant.find({owner: user._id});
+    }
     //signing token with user id
     var token = jwt.sign(
       {
@@ -102,12 +111,7 @@ exports.signin = (req, res) => {
 
     //responding to client request with user profile success message and  access token .
     res.status(200).send({
-      user: {
-        id: user._id,
-        email: user.email,
-        fullName: user.fullName,
-        role: user.role,
-      },
+      ...resp,
       message: "Login successful",
       accessToken: token,
     });
