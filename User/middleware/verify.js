@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
-User = require("../models/user");
+const User = require("../models/user");
+const Restaurant = require("../../Restaurant/model");
 
-const verifyToken = (req, res, next) => {
+const verifyToken = async (req, res, next) => {
     console.log("Verifying")
     console.log(req.headers.authorization)
   if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
@@ -10,7 +11,7 @@ const verifyToken = (req, res, next) => {
       User.findOne({
           _id: decode.id
         })
-        .exec((err, user) => {
+        .exec(async(err, user) => {
           if (err) {
             res.status(500)
               .send({
@@ -18,6 +19,9 @@ const verifyToken = (req, res, next) => {
               });
           } else {
             req.user = user;
+            if(user.role == 'Admin'){
+              req.restaurantData = await Restaurant.find({owner:user.id})
+            }
             next();
           }
         })

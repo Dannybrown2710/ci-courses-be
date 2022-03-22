@@ -1,6 +1,33 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
+  var MenuSchema = new Schema({
+    name: {
+      type: String,
+      required: [true, "Item name not provided "],
+    },
+    category: {
+      type: String,
+      lowercase: true,
+      trim: true,
+      required: [true, "Category not provided"]
+  
+    },
+    image: {
+      type: String,
+      required: [true, "Please add a phone number"]
+    },
+    price: {
+      type: Number,
+      required: true
+    },
+    created: {
+      type: Date,
+      default: Date.now
+    }
+  });
+
+
 /**
  * Restaurant Schema
  */
@@ -33,6 +60,9 @@ var RestaurantSchema = new Schema({
     type: String,
     required: true,
     unique: true
+  },
+  menu:{
+    type: [MenuSchema]
   }
 });
 

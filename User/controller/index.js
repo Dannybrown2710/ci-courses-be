@@ -54,6 +54,14 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = async(req, res) => {
+  if(req.session.loggedIn){
+    const resp = {user:req.session.user}
+    if(req.session.restaurantData){
+      resp["restaurantData"]=req.session.restaurantData;
+    }
+    res.status(200).send(resp);
+    return;
+  }
   User.findOne({
     email: req.body.email,
   }).exec(async(err, user) => {
@@ -94,9 +102,13 @@ exports.signin = async(req, res) => {
       fullName: user.fullName,
       role: user.role,
     }}
+    req.session.loggedIn = true
+    req.session.user = user;
     if(user.role === 'Admin'){
       resp.restaurantData = await Restaurant.find({owner: user._id});
+      req.session.restaurantData = resp.restaurantData
     }
+    
     //signing token with user id
     var token = jwt.sign(
       {
@@ -107,8 +119,7 @@ exports.signin = async(req, res) => {
       {
         expiresIn: 86400,
       }
-    );
-
+      );
     //responding to client request with user profile success message and  access token .
     res.status(200).send({
       ...resp,
