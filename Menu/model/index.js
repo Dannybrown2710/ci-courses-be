@@ -2,9 +2,9 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 /**
- * Restaurant Schema
+ * Teacher Schema
  */
-var MenuSchema = new Schema({
+var TeacherSchema = new Schema({
   name: {
     type: String,
     required: [true, "Item name not provided "],
@@ -30,4 +30,4 @@ var MenuSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('menu', MenuSchema);
+module.exports = mongoose.model('menu', TeacherSchema);

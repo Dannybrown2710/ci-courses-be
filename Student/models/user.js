@@ -2,7 +2,7 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 /**
- * User Schema
+ * Student Schema
  */
 var userSchema = new Schema({
   fullName: {
@@ -25,8 +25,8 @@ var userSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ["User", "Admin"],
-    required: [true, "Please specify user role"]
+    enum: ["Student", "Teacher", "Admin"],
+    required: [true, "Please specify student role"]
   },
   password: {
     type: String,

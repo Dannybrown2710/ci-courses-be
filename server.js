@@ -7,7 +7,7 @@ const MongoStore = require('connect-mongo');
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded());
-const port = 4000;
+const port = 4005;
 app.use(session({
   secret: 'JaamaatuuKaTumaaatu',
   name:'sid',
@@ -29,5 +29,5 @@ mongoConnect()
   .catch((err) => console.log(err));
 app.listen(port, async () => {
   await mongoConnect();
-  console.log(`Zomata ka tomato foota at ${port}`);
+  console.log(`Courses ka tomato foota at ${port}`);
 });

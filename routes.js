@@ -1,6 +1,6 @@
 const menuRoutes = require('./Menu/routes')
-const userRoutes = require('./User/routes')
-const restaurantRoutes = require('./Restaurant/routes')
+const studentRoutes = require('./Student/routes')
+const teacherRoutes = require('./Subject/routes')
 const express = require('express');
 const router = express.Router();
 
@@ -11,11 +11,11 @@ const defaultRoutes = [
   },
   {
     path: '/user',
-    route: userRoutes,
+    route: studentRoutes,
   },
   {
-    path: '/restaurant',
-    route: restaurantRoutes,
+    path: '/subjects',
+    route: teacherRoutes,
   },
   
 ];
