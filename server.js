@@ -15,13 +15,13 @@ app.use(session({
   saveUninitialized: true,
   cookie: { httpOnly: true, secure: false},
   store: MongoStore.create({
-    mongoUrl: 'mongodb://localhost:27017/zomatotomato', 
+    mongoUrl: 'mongodb://localhost:27017/coursestomato', 
 })
 }))
 app.use("/", routes);
 
 async function mongoConnect() {
-  await mongoose.connect("mongodb://localhost:27017/zomatotomato");
+  await mongoose.connect("mongodb://localhost:27017/coursestomato");
 }
 
 mongoConnect()
